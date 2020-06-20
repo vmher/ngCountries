@@ -1,1 +1,52 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  outline: none;
+}
+p,
+h1 {
+  cursor: default;
+}
+body {
+  background: #272727;
+  background: #0c181f;
+  color: #ececec;
+  color: #ff9f1c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+button {
+  cursor: pointer;
+}
+::selection {
+  background: #c0caad;
+}
+::placeholder {
+  color: #0c181f;
+}
+input {
+  border: none;
+  border-radius: 28px;
+  width: 20vw;
+  height: 60px;
+  font-size: 26px;
+  background: #c0caad;
+  font-family: "Nunito";
+  padding: 22px;
+  color: #0c181f;
+  transition: 0.8s;
+}
+input:focus {
+  box-shadow: 0 0 6px #ff9f1c;
+}
+app-root {
+  font-family: "Nunito", sans-serif;
+  display: flex;
+  flex-direction: column;
+  max-width: 80vmax;
+  min-width: 40vmax;
+  text-align: center;
+  margin: 30px;
+}

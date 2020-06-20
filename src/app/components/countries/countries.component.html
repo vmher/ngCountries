@@ -1,0 +1,8 @@
+<app-search
+  [countries]="countries"
+  (updateCountries)="updateCountries($event)"
+></app-search>
+<app-country
+  [countries]="countries"
+  [foundCountries]="foundCountries"
+></app-country>

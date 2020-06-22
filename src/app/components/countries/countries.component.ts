@@ -19,11 +19,25 @@ export class CountriesComponent implements OnInit {
       (err) => console.log(err),
       () => this.countries.map((country) => (country.votes = 0))
     );
+    this.countries = JSON.parse(sessionStorage.getItem('countries'));
+    this.foundCountries = this.countries;
   }
 
   foundCountries;
 
+  sort() {
+    this.foundCountries = this.countriesService.sort(this.foundCountries);
+  }
+
+  countryVoted({ countryName, direction }) {
+    this.countriesService.vote(this.countries, countryName, direction);
+    this.sort();
+    this.updateCountries(this.foundCountries);
+    sessionStorage.setItem('countries', JSON.stringify(this.countries));
+  }
+
   updateCountries(foundCountries) {
     this.foundCountries = foundCountries;
+    this.sort();
   }
 }

@@ -9,6 +9,10 @@ export class CountriesService {
     return this.http.get(url);
   }
 
+  lazyCountries(countries) {
+    console.log(countries);
+  }
+
   search(countries, searchName) {
     return countries.filter(
       (country) =>
@@ -16,8 +20,17 @@ export class CountriesService {
     );
   }
 
-  vote() {
-    //vote implementation
+  sort(countries) {
+    return countries.sort((a, b) => b.votes - a.votes);
+  }
+
+  vote(countries, countryName, direction) {
+    let country = countries.find((country) => country.name === countryName);
+    if (direction === 'up') {
+      country.votes += Number(country.votes != 30);
+    } else {
+      country.votes -= Number(country.votes != 0);
+    }
   }
 
   constructor(private http: HttpClient) {}

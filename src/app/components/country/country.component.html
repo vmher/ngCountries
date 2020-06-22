@@ -16,8 +16,11 @@
       <span>{{ country.votes }}</span>
     </p>
     <p>
-      <button><i class="fas fa-plus"></i></button
-      ><button><i class="fas fa-minus"></i></button>
+      <button (click)="vote(country.name, 'up')">
+        <i class="fas fa-plus"></i></button
+      ><button (click)="vote(country.name, 'down')">
+        <i class="fas fa-minus"></i>
+      </button>
     </p>
   </div>
 </div>

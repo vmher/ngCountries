@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, SimpleChange } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  SimpleChange,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 
 @Component({
   selector: 'app-country',
@@ -8,10 +15,17 @@ import { Component, OnInit, Input, SimpleChange } from '@angular/core';
 export class CountryComponent implements OnInit {
   @Input() countries;
   @Input() foundCountries;
+  @Output() countryVoted = new EventEmitter();
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  ngOnChanges(changes: SimpleChange) {}
+  vote(countryName, direction) {
+    this.countryVoted.emit({ countryName, direction });
+  }
+
+  ngOnChanges(changes: SimpleChange) {
+    this.countries = this.foundCountries;
+  }
 }

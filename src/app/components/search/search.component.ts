@@ -23,7 +23,6 @@ export class SearchComponent implements OnInit {
       this.countries,
       this.searchName
     );
-    console.log(this.foundCountries);
     this.updateCountries.emit(this.foundCountries);
   }
 

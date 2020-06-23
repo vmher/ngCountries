@@ -1,2 +1,10 @@
-<app-header></app-header>
-<app-countries></app-countries>
+<h1>{{ title }}</h1>
+<app-search
+  [countries]="countries"
+  (updateCountries)="updateCountries($event)"
+></app-search>
+<app-country
+  [countries]="countries"
+  [foundCountries]="foundCountries"
+  (countryVoted)="countryVoted($event)"
+></app-country>

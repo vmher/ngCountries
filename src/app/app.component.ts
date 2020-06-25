@@ -1,5 +1,13 @@
 import { Component } from '@angular/core';
-import { CountriesService } from 'src/app/services/countries.service';
+import { HttpService } from 'src/app/services/http.service';
+import { SessionStorageService } from './services/session-storage.service';
+
+interface Countries {
+  name: string;
+  capital: string;
+  currency: string;
+  votes: number;
+}
 
 @Component({
   selector: 'app-root',
@@ -8,38 +16,65 @@ import { CountriesService } from 'src/app/services/countries.service';
 })
 export class AppComponent {
   title = 'Countries';
-
-  constructor(private countriesService: CountriesService) {}
-
-  countries;
-
+  searchPlaceholder = 'find country by name..';
+  searchName = '';
   url = 'https://restcountries.eu/rest/v2/all?fields=name;capital;currencies';
+  tempResp: object;
+  countries: Array<Countries>;
+
+  constructor(
+    private httpService: HttpService,
+    private sessionStorageService: SessionStorageService
+  ) {}
 
   ngOnInit(): void {
-    this.countriesService.getCountries(this.url).subscribe(
-      (data) => (this.countries = data),
+    this.fetchCountries();
+  }
+
+  fetchCountries(): void {
+    this.httpService.getCountries(this.url).subscribe(
+      (resp) => (this.tempResp = resp),
       (err) => console.log(err),
-      () => this.countries.map((country) => (country.votes = 0))
+      () => this.modifyResp(this.tempResp)
     );
-    this.countries = JSON.parse(sessionStorage.getItem('countries'));
-    this.foundCountries = this.countries;
   }
 
-  foundCountries;
-
-  sort() {
-    this.foundCountries = this.countriesService.sort(this.foundCountries);
+  modifyResp(resp): void {
+    if (sessionStorage.getItem('countries')) {
+      this.countries = JSON.parse(
+        this.sessionStorageService.getFromSessionStorage('countries')
+      );
+    } else {
+      this.countries = resp.map(function (country) {
+        country.currency = country.currencies[0].code;
+        country.votes = 0;
+        delete country.currencies;
+        return country;
+      });
+    }
   }
 
-  countryVoted({ countryName, direction }) {
-    this.countriesService.vote(this.countries, countryName, direction);
-    this.sort();
-    this.updateCountries(this.foundCountries);
-    sessionStorage.setItem('countries', JSON.stringify(this.countries));
+  lazyLoad() {
+    // lazy load countries with quantity parameter
   }
 
-  updateCountries(foundCountries) {
-    this.foundCountries = foundCountries;
-    this.sort();
+  vote(countryName, direction): void {
+    let country = this.countries.find(
+      (country) => country.name === countryName
+    );
+    if (direction === 'up') {
+      country.votes += Number(country.votes != 30);
+    } else {
+      country.votes -= Number(country.votes != 0);
+    }
+    this.sortCountries();
+    this.sessionStorageService.setToSessionStorage(
+      'countries',
+      JSON.stringify(this.countries)
+    );
+  }
+
+  sortCountries(): void {
+    this.countries = this.countries.sort((a, b) => b.votes - a.votes);
   }
 }

@@ -1,10 +1,47 @@
 <h1>{{ title }}</h1>
-<app-search
-  [countries]="countries"
-  (updateCountries)="updateCountries($event)"
-></app-search>
-<app-country
-  [countries]="countries"
-  [foundCountries]="foundCountries"
-  (countryVoted)="countryVoted($event)"
-></app-country>
+
+<div>
+  <input
+    type="text"
+    [(ngModel)]="searchName"
+    placeholder="{{ searchPlaceholder }}"
+  />
+</div>
+
+<div *ngIf="countries; else loading">
+  <div
+    class="country"
+    *ngFor="let country of countries | appFilter: searchName"
+  >
+    <div class="info">
+      <p>
+        country: <span> {{ country.name }}</span>
+      </p>
+      <p>
+        capital: <span> {{ country.capital }}</span>
+      </p>
+      <p>
+        currency: <span> {{ country.currency }}</span>
+      </p>
+    </div>
+    <div class="votes">
+      <p>votes</p>
+      <p>
+        <span>{{ country.votes }}</span>
+      </p>
+      <p>
+        <button>
+          <i class="fas fa-plus" (click)="vote(country.name, 'up')"></i></button
+        ><button>
+          <i class="fas fa-minus" (click)="vote(country.name, 'down')"></i>
+        </button>
+      </p>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="loading">
+    <span>.</span><span>.</span><span>.</span><span>.</span>
+  </div>
+</ng-template>

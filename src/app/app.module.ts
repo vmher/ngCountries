@@ -4,11 +4,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { SearchComponent } from './components/search/search.component';
-import { CountryComponent } from './components/country/country.component';
+import { FilterPipe } from './filter.pipe';
 
 @NgModule({
-  declarations: [AppComponent, SearchComponent, CountryComponent],
+  declarations: [AppComponent, FilterPipe],
   imports: [BrowserModule, HttpClientModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],

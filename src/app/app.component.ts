@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpService } from 'src/app/services/http.service';
+import { HttpService } from 'src/app/services/countries.service';
 import { SessionStorageService } from './services/session-storage.service';
 
 interface Countries {
@@ -17,8 +17,8 @@ interface Countries {
 export class AppComponent {
   title = 'Countries';
   searchPlaceholder = 'find country by name..';
-  searchName = '';
-  url = 'https://restcountries.eu/rest/v2/all?fields=name;capital;currencies';
+  // searchName = '';
+  // url = 'https://restcountries.eu/rest/v2/all?fields=name;capital;currencies';
   tempResp: object;
   countries: Array<Countries>;
 
@@ -32,7 +32,7 @@ export class AppComponent {
   }
 
   fetchCountries(): void {
-    this.httpService.getCountries(this.url).subscribe(
+    this.httpService.getCountries().subscribe(
       (resp) => (this.tempResp = resp),
       (err) => console.log(err),
       () => this.modifyResp(this.tempResp)

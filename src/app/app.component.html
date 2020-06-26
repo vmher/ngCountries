@@ -1,18 +1,11 @@
 <h1>{{ title }}</h1>
 
 <div>
-  <input
-    type="text"
-    [(ngModel)]="searchName"
-    placeholder="{{ searchPlaceholder }}"
-  />
+  <input type="text" #searchName placeholder="{{ searchPlaceholder }}" />
 </div>
 
 <div *ngIf="countries; else loading">
-  <div
-    class="country"
-    *ngFor="let country of countries | appFilter: searchName"
-  >
+  <div class="country" *ngFor="let country of countries">
     <div class="info">
       <p>
         country: <span> {{ country.name }}</span>
